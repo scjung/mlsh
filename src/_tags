@@ -1,0 +1,3 @@
+<*.ml>: package(batteries)
+"mlsh.byte": package(batteries)
+"mlsh.native": package(batteries)

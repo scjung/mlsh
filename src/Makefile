@@ -1,0 +1,17 @@
+OCAMLBUILD ?= ocamlbuild
+
+OCAMLBUILD_FLAGS += -use-ocamlfind
+
+EXEC = mlsh
+
+BYTE_TARGETS   = $(EXEC).byte
+NATIVE_TARGETS = $(EXEC).native
+
+byte:
+	$(OCAMLBUILD) $(OCAMLBUILD_FLAGS) $(BYTE_TARGETS)
+
+native:
+	$(OCAMLBUILD) $(OCAMLBUILD_FLAGS) $(NATIVE_TARGETS)
+
+clean:
+	$(OCAMLBUILD) -clean
