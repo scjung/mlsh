@@ -1,7 +1,7 @@
 open Batteries_uni
 
 module Interpreter = Ms_interpreter
-module Env         = Ms_env
+module Runtime     = Ms_runtime
 module Shell       = Ms_shell
 
 let usage () =
@@ -13,7 +13,7 @@ let parse inp =
 let execute script =
   let _ =
     Interpreter.execute
-      Env.({ prompt = "$ "; vars = []; last_result = Int 0 })
+      Runtime.init_env
       script
   in
   ()

@@ -1,7 +1,7 @@
 open Batteries_uni
 open Ms_ast
 
-module Env = Ms_env
+module Runtime = Ms_runtime
 
 let exec_command s params =
   match Unix.fork () with
@@ -15,7 +15,7 @@ let exec_command s params =
 let exec_fcall env s params =
   let status = exec_command s params in
   match status with
-  | Unix.WEXITED n  -> Env.({ env with last_result = Int n })
+  | Unix.WEXITED n  -> Runtime.({ env with last_result = Int n })
   | Unix.WSIGNALED _-> failwith "todo: WSIGNALED"
   | Unix.WSTOPPED _ -> failwith "todo: WSTOPPED"
 
