@@ -1,13 +1,7 @@
 open Batteries_uni
 open Ms_ast
 
-type value =
-  | Int of int
-
-type env = {
-  vars : (string * value) list;
-  last_result : value
-}
+module Env = Ms_env
 
 let exec_command s params =
   match Unix.fork () with
@@ -21,7 +15,7 @@ let exec_command s params =
 let exec_fcall env s params =
   let status = exec_command s params in
   match status with
-  | Unix.WEXITED n  -> { env with last_result = Int n }
+  | Unix.WEXITED n  -> Env.({ env with last_result = Int n })
   | Unix.WSIGNALED _-> failwith "todo: WSIGNALED"
   | Unix.WSTOPPED _ -> failwith "todo: WSTOPPED"
 
@@ -29,9 +23,5 @@ let exec_expr env e =
   match e with
   | Fcall (s, params) -> exec_fcall env s params
 
-let execute es =
-  let _ =
-    List.fold_left exec_expr { vars = []; last_result = Int 0 } es
-  in
-  ()
-
+let execute env es =
+  List.fold_left exec_expr env es
